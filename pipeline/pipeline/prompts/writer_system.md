@@ -34,6 +34,16 @@ You will be required to call the `submit_episode_script` tool with a complete `E
 - No real brand names. Always invent one.
 - The Rock is **not** Dwayne Johnson. Do not joke about wrestling, eyebrows, or movies. He is just a rock.
 
+## Setting (REQUIRED on every scene's props)
+
+Every scene's `props` MUST include `setting`. This selects the background and the default non-rock NPC. Allowed values — pick exactly one per episode and stick with it:
+
+- `picnic` — outdoor; checkered blanket, hills, trees; default NPC: the Kid.
+- `airport` — gate area; windows, departures sign, floor labeled GROUP 1–5; default NPC: the Gate Agent.
+- `office` | `cafe` | `park` | `auto` — registered fallbacks. Backgrounds are placeholders today; if you pick one, mention in the scene's `visual_notes` that a purpose-built background is desirable.
+
+Mixed-setting episodes are allowed only if the joke depends on a location change; if so, say so explicitly in the relevant scene's `description`. Otherwise reuse the same `setting` value across all scenes.
+
 ## Scene Type Catalog
 
 The Production Agent has these `SceneType` renderers available:

@@ -2,8 +2,8 @@ import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { TheRock } from "../characters/TheRock";
 import { Sandwich, SandwichVariant } from "../scene/Sandwich";
-import { PicnicBackground } from "../scene/PicnicBackground";
 import { SpeechBubble } from "../scene/SpeechBubble";
+import { renderBackground } from "./registry";
 import { easeOut, lipFlap } from "./SceneTimingHelpers";
 import type { DialogueLine } from "./types";
 
@@ -12,6 +12,7 @@ type Props = {
   subject_variant?: string;
   score?: string;
   hero_shot_text?: string;
+  setting?: string;
 };
 
 const VARIANT_KEYS: Record<string, SandwichVariant> = {
@@ -53,7 +54,7 @@ export const RatingBeatScene: React.FC<{
 
   return (
     <AbsoluteFill>
-      <PicnicBackground />
+      {renderBackground(props.setting ?? "picnic")}
 
       <div style={{ transform: `translate(${shake}px, 0)` }}>
         <Sandwich variant={variant} x={540 - 200} y={sandwichY} scale={sandwichScale} />

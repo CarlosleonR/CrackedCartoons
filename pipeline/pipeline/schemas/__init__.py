@@ -8,6 +8,8 @@ from .script import (
     Speaker,
     Emotion,
 )
+
+# `Scene` is already exported via the import above.
 from .publish import (
     PublishMetadata,
     PublishPackage,

@@ -51,16 +51,19 @@ def test_example_concepts_validate() -> None:
 
 def test_user_message_is_kv_cache_friendly() -> None:
     """The dynamic content (the concept) must be the LAST thing in the request,
-    after the cached system prompt + cached tool definition. We can't introspect
-    the live HTTP request, but we can verify the agent's structure surfaces the
-    concept via the user message only.
+    after the cached system prompt + cached tool definition. Generic vocabulary
+    (like the names of registered scene settings) is allowed; what we forbid is
+    leaks of specific *episode content* — premises, punchlines, taglines from a
+    real concept that would change per episode and bust the cache.
     """
     a = _agent()
-    # The system prompt must NOT mention the specific concept's topic — anything
-    # that varies per episode breaks the cache.
-    forbidden_in_system = ["Airport", "boarding", "iced coffee"]
-    for word in forbidden_in_system:
-        assert word.lower() not in a.system_prompt_text.lower(), (
-            f"System prompt contains episode-specific term {word!r} — will "
-            f"break KV cache across episodes."
+    forbidden_in_system = [
+        "Group Four",          # Ep2 punchline phrase
+        "Zone Eleven",         # Ep2 punchline phrase
+        "Iced Coffee",         # generic-but-pretend-episode example
+    ]
+    for phrase in forbidden_in_system:
+        assert phrase.lower() not in a.system_prompt_text.lower(), (
+            f"System prompt contains episode-specific phrase {phrase!r} — "
+            f"will break KV cache across episodes."
         )

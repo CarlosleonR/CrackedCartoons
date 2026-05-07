@@ -17,7 +17,8 @@
       "props": {
         "episode_number": "EP. 2",
         "headline": "THE ROCK",
-        "subtitle": "RATES YOUR BOARDING GROUP"
+        "subtitle": "RATES YOUR BOARDING GROUP",
+        "setting": "airport"
       },
       "visual_notes": null
     },
@@ -36,7 +37,8 @@
           "gate_podium",
           "carry_on_bags",
           "waiting_passengers"
-        ]
+        ],
+        "setting": "airport"
       },
       "visual_notes": "Rock falls and lands with small bounce. Passengers glance over."
     },
@@ -50,7 +52,8 @@
         "subject": "boarding_pass",
         "subject_variant": "crumpled Group 4 pass in hand",
         "score": "4/10",
-        "hero_shot_text": "GROUP FOUR? EMBARRASSING."
+        "hero_shot_text": "GROUP FOUR? EMBARRASSING.",
+        "setting": "airport"
       },
       "visual_notes": null
     },
@@ -64,7 +67,8 @@
         "subject": "carry_on_bag",
         "subject_variant": "black roller bag with priority tag",
         "score": "6/10",
-        "hero_shot_text": "PRIORITY. ACCEPTABLE."
+        "hero_shot_text": "PRIORITY. ACCEPTABLE.",
+        "setting": "airport"
       },
       "visual_notes": null
     },
@@ -78,7 +82,8 @@
         "subject": "frequent_flyer",
         "subject_variant": "silver status lanyard around neck",
         "score": "5/10",
-        "hero_shot_text": "SILVER? MEDIOCRE."
+        "hero_shot_text": "SILVER? MEDIOCRE.",
+        "setting": "airport"
       },
       "visual_notes": null
     },
@@ -94,7 +99,7 @@
           "other",
           "rock"
         ],
-        "setting": "airport_gate_counter"
+        "setting": "airport"
       },
       "visual_notes": "Agent in uniform left, flyer with lanyard right, Rock center-bottom. Tension builds."
     },
@@ -107,7 +112,8 @@
       "props": {
         "character": "rock",
         "expression": "confused",
-        "dots": 2
+        "dots": 2,
+        "setting": "airport"
       },
       "visual_notes": "Empty jetway visible through window. Rock alone in frame."
     },
@@ -120,7 +126,8 @@
       "props": {
         "big_text": "HE MISSED IT.",
         "subtitle": "(the rock pre-boarded)",
-        "tag": "subscribe for more bad opinions"
+        "tag": "subscribe for more bad opinions",
+        "setting": "airport"
       },
       "visual_notes": null
     }

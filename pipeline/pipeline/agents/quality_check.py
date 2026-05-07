@@ -1,34 +1,27 @@
 """Agent 4 — Quality Check.
 
-Deterministic checks. No Claude, no API calls. Designed to be a fast gate
-between Agent 3 (Production) and Agent 5 (Publisher) — if `passed=False`,
-the orchestrator should not upload.
+Two-tier checks:
+  - **Deterministic** (cheap, always-on): file presence, duration drift,
+    audio file integrity, optional blank-frame detection.
+  - **Vision** (opt-in, costs Anthropic tokens): sample N frames, ask Claude
+    Vision whether each frame visually matches the scene's `description`
+    and `props.setting`. Catches "airport scene rendered with picnic
+    background" — the bug class deterministic checks can't see.
 
-Checks performed:
-  - Video file exists and is non-empty.
-  - MP4 has audio + video tracks (mutagen).
-  - Total duration matches expected (script.total_frames / fps) within tolerance.
-  - Each voiceover line has its referenced audio file on disk and the file's
-    decoded MP3 duration is within tolerance of `estimated_duration_frames`.
-  - Each SFX cue has its file on disk.
-  - Optional: render N evenly-spaced frames via `npx remotion still` and reject
-    if any are blank/black (mean brightness near 0).
-
-Frame sampling is opt-in via the `sample_frames` arg because it costs ~3s per
-frame; default is 0 (skip).
+If `passed=False` the orchestrator must not upload.
 """
 from __future__ import annotations
 
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, List, Optional, Tuple
+from typing import Dict, Iterable, List, Optional, Tuple
 
 from mutagen.mp3 import MP3
 from mutagen.mp4 import MP4
 
 from pipeline.agents.renderer import REMOTION_PROJECT, Renderer
-from pipeline.schemas import EpisodeScript, QualityIssue, QualityReport
+from pipeline.schemas import EpisodeScript, QualityIssue, QualityReport, Scene
 
 
 DURATION_TOLERANCE_SECONDS = 0.20
@@ -50,6 +43,7 @@ class QualityCheckAgent:
         sample_frames: int = 0,
         frame_scale: float = 0.25,
         require_audio_track: bool = True,
+        vision_qc: bool = False,
     ) -> QualityReport:
         if video_path is None:
             video_path = self.out_dir / f"{script.episode_id}.mp4"
@@ -72,9 +66,22 @@ class QualityCheckAgent:
         self._check_voiceover_assets(script, report)
         self._check_sfx_assets(script, report)
 
-        # 4. Optional frame sampling.
+        # 4. Optional frame sampling (deterministic).
+        sampled_pngs: List[Tuple[int, Path, "Scene"]] = []
         if sample_frames > 0:
-            self._sample_frames(script, report, sample_frames, frame_scale)
+            sampled_pngs = self._sample_frames(script, report, sample_frames, frame_scale)
+
+        # 5. Optional Vision-QC: ask Claude whether each sampled frame matches
+        #    the scene description / setting. Catches "airport scene rendered
+        #    with picnic background"-class bugs that deterministic checks miss.
+        if vision_qc and sampled_pngs:
+            try:
+                self._vision_check(report, sampled_pngs)
+            except Exception as e:
+                report.issues.append(QualityIssue(
+                    severity="warning", code="vision_qc_skipped",
+                    message=f"Vision-QC could not run: {e}",
+                ))
 
         # Verdict.
         report.passed = not report.errors
@@ -199,14 +206,16 @@ class QualityCheckAgent:
         report: QualityReport,
         sample_count: int,
         scale: float,
-    ) -> None:
+    ) -> List[Tuple[int, Path, "Scene"]]:
         renderer = self.renderer or Renderer()
-        # Pick frames just inside each scene (avoids transitions exactly
-        # on the boundary), plus N-1 extra evenly spaced.
-        scene_frames = [s.start_frame + min(s.duration_frames - 1, 4) for s in script.scenes]
-        frames_to_sample: List[int] = sorted(set(scene_frames))[:sample_count]
+        # Pick the first non-transition frame of each scene, dedup, cap at N.
+        scene_at_frame: Dict[int, "Scene"] = {
+            s.start_frame + min(s.duration_frames - 1, 6): s for s in script.scenes
+        }
+        ordered_frames = sorted(scene_at_frame)[:sample_count]
+        sampled: List[Tuple[int, Path, "Scene"]] = []
 
-        for frame in frames_to_sample:
+        for frame in ordered_frames:
             try:
                 tmp = self.out_dir / f"_qc_{script.episode_id}_f{frame}.png"
                 renderer.render_still(
@@ -231,6 +240,111 @@ class QualityCheckAgent:
                     message=f"Frame {frame} appears blank/black/uniform.",
                     affected_frame=frame,
                     affected_file=str(tmp),
+                ))
+            sampled.append((frame, tmp, scene_at_frame[frame]))
+        return sampled
+
+    # ---------- Vision-QC ---------- #
+
+    def _vision_check(
+        self,
+        report: QualityReport,
+        sampled: List[Tuple[int, Path, "Scene"]],
+    ) -> None:
+        """Send each sampled PNG to Claude with the scene's description and
+        ask 'does this match?'. Each scene is a small isolated call — that
+        keeps prompt cost low and gives a per-scene verdict."""
+        import base64
+        import os
+        from anthropic import Anthropic
+
+        api_key = os.environ.get("ANTHROPIC_API_KEY") or None
+        if not api_key:
+            raise RuntimeError("ANTHROPIC_API_KEY not set")
+        client = Anthropic(api_key=api_key)
+        model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5")
+
+        for frame, png_path, scene in sampled:
+            try:
+                img_b64 = base64.standard_b64encode(png_path.read_bytes()).decode()
+            except Exception:
+                continue
+            setting = (scene.props or {}).get("setting", "(unspecified)")
+            description = scene.description or "(no description)"
+
+            tool = {
+                "name": "submit_visual_match",
+                "description": "Report whether the rendered frame matches the script.",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "matches": {"type": "boolean"},
+                        "reason": {"type": "string", "maxLength": 240},
+                        "severity": {"enum": ["error", "warning", "info"]},
+                    },
+                    "required": ["matches", "reason", "severity"],
+                },
+            }
+            try:
+                msg = client.messages.create(
+                    model=model,
+                    max_tokens=512,
+                    tools=[tool],
+                    tool_choice={"type": "tool", "name": "submit_visual_match"},
+                    messages=[{
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": "image/png",
+                                    "data": img_b64,
+                                },
+                            },
+                            {
+                                "type": "text",
+                                "text": (
+                                    "Does this rendered frame visually match what the script asks for?\n\n"
+                                    f"SCENE_TYPE: {scene.type.value}\n"
+                                    f"SETTING: {setting}\n"
+                                    f"DESCRIPTION: {description}\n\n"
+                                    "Set matches=false if the background doesn't match the setting "
+                                    "(e.g. setting=airport but it's a picnic blanket), or if a "
+                                    "character implied by the description is missing. Use severity=error "
+                                    "for setting/character mismatches, severity=warning for cosmetic "
+                                    "issues. Call submit_visual_match — do not respond with text."
+                                ),
+                            },
+                        ],
+                    }],
+                )
+            except Exception as e:
+                report.issues.append(QualityIssue(
+                    severity="warning", code="vision_qc_call_failed",
+                    message=f"Vision-QC call failed for frame {frame}: {e}",
+                    affected_frame=frame,
+                    affected_scene_id=scene.id,
+                ))
+                continue
+
+            block = next(
+                (b for b in msg.content
+                 if getattr(b, "type", None) == "tool_use"
+                 and b.name == "submit_visual_match"),
+                None,
+            )
+            if block is None:
+                continue
+            verdict = block.input  # type: ignore[attr-defined]
+            if not verdict.get("matches", True):
+                report.issues.append(QualityIssue(
+                    severity=verdict.get("severity", "error"),
+                    code="vision_setting_mismatch",
+                    message=f"Frame {frame} ({scene.id}): {verdict.get('reason','(no reason)')}",
+                    affected_frame=frame,
+                    affected_scene_id=scene.id,
+                    affected_file=str(png_path),
                 ))
 
     # ---------- helpers ---------- #
@@ -265,15 +379,20 @@ class QualityCheckAgent:
 
 def main() -> None:
     """Usage: python -m pipeline.agents.quality_check <script.json>
-              [--video=<path.mp4>] [--sample-frames=N]"""
+              [--video=<path.mp4>] [--sample-frames=N] [--vision-qc]"""
     import json
     import sys as _sys
+    from dotenv import load_dotenv as _load_dotenv
+
+    _load_dotenv(
+        Path(__file__).resolve().parent.parent.parent / ".env", override=True
+    )
 
     args = _sys.argv[1:]
     if not args:
         print(
             "usage: python -m pipeline.agents.quality_check <script.json> "
-            "[--video=<path>] [--sample-frames=N]",
+            "[--video=<path>] [--sample-frames=N] [--vision-qc]",
             file=_sys.stderr,
         )
         _sys.exit(2)
@@ -281,6 +400,7 @@ def main() -> None:
     script_path = Path(args[0])
     video_path: Optional[Path] = None
     sample_frames = 0
+    vision_qc = "--vision-qc" in args
     for a in args[1:]:
         if a.startswith("--video="):
             video_path = Path(a.split("=", 1)[1])
@@ -289,7 +409,12 @@ def main() -> None:
 
     script = EpisodeScript.model_validate_json(script_path.read_text())
     agent = QualityCheckAgent()
-    report = agent.check(script, video_path=video_path, sample_frames=sample_frames)
+    report = agent.check(
+        script,
+        video_path=video_path,
+        sample_frames=sample_frames,
+        vision_qc=vision_qc,
+    )
 
     print(json.dumps(report.model_dump(mode="json"), indent=2))
     print(

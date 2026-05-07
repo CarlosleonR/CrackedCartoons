@@ -1,15 +1,15 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { TheRock } from "../characters/TheRock";
-import { Child } from "../characters/Child";
 import { Sandwich } from "../scene/Sandwich";
-import { PicnicBackground } from "../scene/PicnicBackground";
-import type { Emotion } from "./types";
+import { renderBackground, renderNpc } from "./registry";
+import type { Emotion, Speaker } from "./types";
 
 type Props = {
-  character?: "rock" | "kid";
+  character?: Speaker;
   expression?: Emotion;
   dots?: number;
+  setting?: string;
 };
 
 const EXPRESSION_TO_FACE: Record<Emotion, { brow: number; curve: number; pupilTwitch: boolean }> = {
@@ -31,12 +31,15 @@ export const ReactionBeatScene: React.FC<{ props: Props; duration: number }> = (
   const twitch = expr.pupilTwitch ? Math.sin(frame * 0.6) * 0.4 : 0;
   const fadeIn = interpolate(frame, [0, 8], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
 
-  const character = props.character ?? "rock";
+  const character: Speaker = (props.character as Speaker) ?? "rock";
+  const setting = props.setting ?? "picnic";
 
   return (
     <AbsoluteFill style={{ opacity: fadeIn }}>
-      <PicnicBackground />
-      <Sandwich variant="classic" x={420} y={1500} scale={1.0} rotate={-2} />
+      {renderBackground(setting)}
+      {setting === "picnic" && (
+        <Sandwich variant="classic" x={420} y={1500} scale={1.0} rotate={-2} />
+      )}
 
       {character === "rock" ? (
         <TheRock
@@ -50,7 +53,10 @@ export const ReactionBeatScene: React.FC<{ props: Props; duration: number }> = (
           pupilY={0.4}
         />
       ) : (
-        <Child x={620} y={970} scale={1.6} mouthOpen={0} browAngle={expr.brow} armUp={0} />
+        renderNpc(character, setting, {
+          x: 620, y: 970, scale: 1.6,
+          mouthOpen: 0, browAngle: expr.brow, armUp: 0,
+        })
       )}
 
       {dotCount > 0 && (
