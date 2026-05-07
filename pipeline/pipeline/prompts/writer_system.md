@@ -50,7 +50,14 @@ The Production Agent has these `SceneType` renderers available:
 
 - **`title_card`** — black/yellow flash card. props: `episode_number` (str), `headline` (str, all-caps, ≤16 chars), `subtitle` (str, ≤30 chars).
 - **`character_entrance`** — wide shot of a setting, character rolls/falls/walks in. props: `character` (str), `entrance_direction` (`"left" | "right" | "top"`), `on_screen_label` (str, ≤14 chars), `background_props` (list[str], 2–4 items, e.g. `["picnic_blanket", "sandwich_classic", "sandwich_tall"]`).
-- **`rating_beat`** — close-up of an object getting a hero shot, character delivers a one-liner, score stamps over it. props: `subject` (str), `subject_variant` (str, free-form descriptor), `score` (str, e.g. `"0/10"`, `"-3/10"`), `hero_shot_text` (str, the shouty score callout).
+- **`rating_beat`** — close-up of a subject getting a hero shot, character delivers a one-liner, score stamps over it. props:
+  - `subject` (str) — short noun for what's being rated.
+  - `subject_kind` (`"sandwich" | "text" | "auto"`, default `"text"` for non-picnic settings) — picks the renderer:
+    - `"sandwich"` — renders an actual sandwich SVG. ONLY use when `setting=picnic`. The variant must be `classic | tall | weird`.
+    - `"text"` — renders a big black-on-white banner with the variant text printed on it. Use for anything we don't have an SVG for: a boarding group ("GROUP 4"), a tier ("PRIORITY"), a brand of cereal, a parking spot. The banner IS the visual; do NOT promise close-ups of objects in the scene's `description`.
+  - `subject_variant` (str) — fed to whichever renderer; for `text`, this is the literal banner text (≤14 chars, ALL CAPS preferred).
+  - `score` (str, e.g. `"0/10"`, `"-3/10"`).
+  - `hero_shot_text` (str, the shouty score callout — usually the same as `score`).
 - **`dialogue_exchange`** — two characters trade lines on screen. props: `participants` (list[Speaker]), `setting` (str). The actual lines go into `voiceover[]` referencing this scene's id.
 - **`reaction_beat`** — silent or near-silent shot, one character processes. props: `character` (str), `expression` (Emotion), `dots` (int, 0–3 — number of "..." beats).
 - **`montage`** — quick-cut sequence of similar moments. props: `cut_count` (int), `cut_description` (str).

@@ -48,6 +48,79 @@ export type NpcRendererProps = {
   armUp: number;
 };
 
+/* ---------- Rating-beat subjects ---------- */
+
+export type SubjectKind = "sandwich" | "text" | "auto";
+
+export type SubjectRendererProps = {
+  variant: string;          // e.g. "tall" sandwich variant; or "GROUP 4" text label
+  scale: number;
+  x: number;
+  y: number;
+  rotate: number;
+  shake: number;
+  setting: string;
+};
+
+export const renderSubject = (
+  kind: SubjectKind | string | undefined,
+  p: SubjectRendererProps,
+): React.ReactNode => {
+  // Text-card subject — large headline banner. Used when the rating target
+  // isn't a thing we have an SVG for (boarding group, tier name, etc).
+  // Centered horizontally on the 1080 canvas; vertical position follows p.y.
+  if (kind === "text") {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: p.y + 120,                 // a bit lower than sandwich y so it doesn't fight the score
+          textAlign: "center",
+          transform: `translateX(${p.shake}px) rotate(${p.rotate}deg) scale(${p.scale / 2.4})`,
+          transformOrigin: "center top",
+          fontFamily: "ui-rounded, system-ui, sans-serif",
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            display: "inline-block",
+            padding: "28px 56px",
+            background: "#fff",
+            border: "8px solid #1a1a1e",
+            borderRadius: 24,
+            boxShadow: "10px 10px 0 #1a1a1e",
+            fontSize: 120,
+            fontWeight: 900,
+            color: "#1a1a1e",
+            letterSpacing: -4,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {p.variant.toUpperCase()}
+        </div>
+      </div>
+    );
+  }
+
+  // Default: sandwich (legacy / picnic episodes).
+  // Lazily import to avoid hard cycle.
+  const { Sandwich } = require("../scene/Sandwich") as typeof import("../scene/Sandwich");
+  const sw = (["classic", "tall", "weird"].includes(p.variant) ? p.variant : "classic") as
+    "classic" | "tall" | "weird";
+  return (
+    <Sandwich
+      variant={sw}
+      x={p.x + p.shake}
+      y={p.y}
+      scale={p.scale}
+      rotate={p.rotate}
+    />
+  );
+};
+
 export const renderNpc = (
   speaker: Speaker,
   setting: string | undefined,

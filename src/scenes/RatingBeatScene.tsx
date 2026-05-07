@@ -1,24 +1,18 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { TheRock } from "../characters/TheRock";
-import { Sandwich, SandwichVariant } from "../scene/Sandwich";
 import { SpeechBubble } from "../scene/SpeechBubble";
-import { renderBackground } from "./registry";
+import { renderBackground, renderSubject, SubjectKind } from "./registry";
 import { easeOut, lipFlap } from "./SceneTimingHelpers";
 import type { DialogueLine } from "./types";
 
 type Props = {
   subject?: string;
+  subject_kind?: SubjectKind | string;
   subject_variant?: string;
   score?: string;
   hero_shot_text?: string;
   setting?: string;
-};
-
-const VARIANT_KEYS: Record<string, SandwichVariant> = {
-  classic: "classic",
-  tall: "tall",
-  weird: "weird",
 };
 
 export const RatingBeatScene: React.FC<{
@@ -28,14 +22,20 @@ export const RatingBeatScene: React.FC<{
   sceneStartFrame: number;
 }> = ({ props, voiceover, sceneStartFrame }) => {
   const frame = useCurrentFrame();
-  const variant = VARIANT_KEYS[props.subject_variant ?? "classic"] ?? "classic";
+
+  // Subject-kind dispatch. Default to sandwich only when the setting is
+  // picnic; otherwise default to "text" so non-food settings get a banner
+  // instead of a stray hamburger.
+  const setting = props.setting ?? "picnic";
+  const subjectKind: SubjectKind | string =
+    props.subject_kind ?? (setting === "picnic" ? "sandwich" : "text");
+  const variant = props.subject_variant ?? "classic";
   const score = props.score ?? "0/10";
 
-  const sandwichScale = interpolate(frame, [0, 14, 22], [0.4, 2.6, 2.4], { extrapolateRight: "clamp", extrapolateLeft: "clamp", easing: easeOut });
-  const sandwichY = interpolate(frame, [0, 14], [1200, 720], { extrapolateRight: "clamp", extrapolateLeft: "clamp", easing: easeOut });
+  const subjectScale = interpolate(frame, [0, 14, 22], [0.4, 2.6, 2.4], { extrapolateRight: "clamp", extrapolateLeft: "clamp", easing: easeOut });
+  const subjectY = interpolate(frame, [0, 14], [1200, 720], { extrapolateRight: "clamp", extrapolateLeft: "clamp", easing: easeOut });
   const shake = Math.sin(frame * 0.9) * (frame > 30 && frame < 60 ? 8 : 0);
 
-  // Pull the active line (if any) from voiceover relevant to this scene.
   const absFrame = sceneStartFrame + frame;
   const activeLine = voiceover.find(
     (l) => absFrame >= l.start_frame && absFrame < l.start_frame + l.estimated_duration_frames
@@ -54,11 +54,17 @@ export const RatingBeatScene: React.FC<{
 
   return (
     <AbsoluteFill>
-      {renderBackground(props.setting ?? "picnic")}
+      {renderBackground(setting)}
 
-      <div style={{ transform: `translate(${shake}px, 0)` }}>
-        <Sandwich variant={variant} x={540 - 200} y={sandwichY} scale={sandwichScale} />
-      </div>
+      {renderSubject(subjectKind, {
+        variant,
+        scale: subjectScale,
+        x: 340,           // ~ centered for 480px-wide subject
+        y: subjectY,
+        rotate: 0,
+        shake,
+        setting,
+      })}
 
       <TheRock
         x={120}

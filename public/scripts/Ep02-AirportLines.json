@@ -50,10 +50,11 @@
       "description": "Close-up of a passenger holding a Group 4 boarding pass. The Rock delivers judgment.",
       "props": {
         "subject": "boarding_pass",
-        "subject_variant": "crumpled Group 4 pass in hand",
+        "subject_variant": "GROUP 4",
         "score": "4/10",
         "hero_shot_text": "GROUP FOUR? EMBARRASSING.",
-        "setting": "airport"
+        "setting": "airport",
+        "subject_kind": "text"
       },
       "visual_notes": null
     },
@@ -65,10 +66,11 @@
       "description": "Close-up of a carry-on bag with a Priority tag dangling off it. The Rock sneers.",
       "props": {
         "subject": "carry_on_bag",
-        "subject_variant": "black roller bag with priority tag",
+        "subject_variant": "PRIORITY",
         "score": "6/10",
         "hero_shot_text": "PRIORITY. ACCEPTABLE.",
-        "setting": "airport"
+        "setting": "airport",
+        "subject_kind": "text"
       },
       "visual_notes": null
     },
@@ -80,10 +82,11 @@
       "description": "Close-up of a passenger wearing a frequent flyer lanyard with status badge. The Rock is unimpressed.",
       "props": {
         "subject": "frequent_flyer",
-        "subject_variant": "silver status lanyard around neck",
+        "subject_variant": "SILVER",
         "score": "5/10",
         "hero_shot_text": "SILVER? MEDIOCRE.",
-        "setting": "airport"
+        "setting": "airport",
+        "subject_kind": "text"
       },
       "visual_notes": null
     },
@@ -91,7 +94,7 @@
       "id": "dialogue-pushback",
       "type": "dialogue_exchange",
       "start_frame": 450,
-      "duration_frames": 240,
+      "duration_frames": 360,
       "description": "Gate agent and frequent flyer step forward to challenge The Rock. He responds by escalating his authority and inventing new zones.",
       "props": {
         "participants": [
@@ -106,8 +109,8 @@
     {
       "id": "reaction-beat",
       "type": "reaction_beat",
-      "start_frame": 690,
-      "duration_frames": 60,
+      "start_frame": 810,
+      "duration_frames": 30,
       "description": "Wide shot. The plane is gone from the window behind the gate. The Rock sits alone. Silence.",
       "props": {
         "character": "rock",
@@ -120,8 +123,8 @@
     {
       "id": "outro",
       "type": "outro",
-      "start_frame": 750,
-      "duration_frames": 150,
+      "start_frame": 840,
+      "duration_frames": 60,
       "description": "Outro card with episode verdict and channel signoff.",
       "props": {
         "big_text": "HE MISSED IT.",
@@ -195,13 +198,13 @@
     },
     {
       "speaker": "rock",
-      "text": "I am creating seven new zones. You are all in Zone Eleven.",
+      "text": "Seven new zones. You're in Zone Eleven.",
       "on_screen_text": "SEVEN NEW ZONES.\nYOU'RE IN ZONE 11.",
       "emotion": "hostile",
-      "start_frame": 660,
-      "estimated_duration_frames": 84,
+      "start_frame": 640,
+      "estimated_duration_frames": 150,
       "scene_id": "dialogue-pushback",
-      "audio_src": "audio/Ep02-AirportLines/06_rock_i_am_creating_seven_new_zone.mp3"
+      "audio_src": "audio/Ep02-AirportLines/06_rock_seven_new_zones_you_re_in_zo.mp3"
     }
   ],
   "sfx": [
@@ -261,7 +264,7 @@
     },
     {
       "description": "distant jet engine fading away into silence",
-      "start_frame": 690,
+      "start_frame": 810,
       "duration_seconds": 2.0,
       "volume": 0.25,
       "scene_id": "reaction-beat",
@@ -270,7 +273,7 @@
     },
     {
       "description": "sad trombone descending wah-wah",
-      "start_frame": 750,
+      "start_frame": 895,
       "duration_seconds": 1.8,
       "volume": 0.6,
       "scene_id": "outro",
@@ -279,7 +282,7 @@
     },
     {
       "description": "distant rock muttering and grumbling indistinctly",
-      "start_frame": 820,
+      "start_frame": 895,
       "duration_seconds": 2.5,
       "volume": 0.22,
       "scene_id": "outro",
