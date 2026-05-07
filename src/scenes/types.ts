@@ -1,7 +1,7 @@
 // TypeScript mirrors of pipeline/schemas/script.py.
 // Hand-maintained; if you change the Pydantic schema, update here too.
 
-export type Speaker = "rock" | "kid" | "narrator" | "other";
+export type Speaker = "rock" | "kid" | "narrator" | "other" | "gerald" | "dave" | "duck";
 export type Emotion =
   | "smug" | "angry" | "indignant" | "confused" | "deadpan"
   | "shocked" | "excited" | "sad" | "hostile";
@@ -13,7 +13,9 @@ export type SceneType =
   | "dialogue_exchange"
   | "reaction_beat"
   | "montage"
-  | "outro";
+  | "outro"
+  | "visual_beat"
+  | "slide_deck";
 
 export type DialogueLine = {
   speaker: Speaker;

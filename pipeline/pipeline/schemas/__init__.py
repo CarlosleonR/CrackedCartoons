@@ -7,6 +7,10 @@ from .script import (
     SFXCue,
     Speaker,
     Emotion,
+    Character,
+    ComedyFormat,
+    PunchlineFormat,
+    WhatToAvoidNextEpisode,
 )
 
 # `Scene` is already exported via the import above.
@@ -40,6 +44,10 @@ __all__ = [
     "SFXCue",
     "Speaker",
     "Emotion",
+    "Character",
+    "ComedyFormat",
+    "PunchlineFormat",
+    "WhatToAvoidNextEpisode",
     "PublishMetadata",
     "PublishPackage",
     "PrivacyStatus",

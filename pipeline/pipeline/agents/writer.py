@@ -76,6 +76,17 @@ class WriterAgent:
         message = self._call_claude(concept)
         tool_input = self._extract_tool_input(message)
         script = EpisodeScript.model_validate(tool_input)
+        # Diversity log — append the new episode so the next writer call
+        # avoids repeating it. Skip silently if the script is missing the
+        # diversity fields (legacy).
+        try:
+            from pipeline.agents.episode_log import EpisodeLog
+            entry = EpisodeLog.from_script(script)
+            if entry is not None:
+                EpisodeLog().append(entry)
+        except Exception:
+            pass
+
         usage = {
             "input_tokens": message.usage.input_tokens,
             "output_tokens": message.usage.output_tokens,
@@ -117,9 +128,17 @@ class WriterAgent:
         }
 
     def _call_claude(self, concept: Concept) -> Message:
-        # Pull in any accumulated lessons from Agent 6 (Analyst). We append
-        # these to the USER message — never the system prompt — so the cached
-        # prefix stays stable across episodes even as the knowledge base grows.
+        # Append two stable user-message addenda (NOT system prompt — caching).
+        #
+        # 1. Recent episode log (last 3) so the writer enforces anti-repetition.
+        # 2. Accumulated KnowledgeNotes from Agent 6.
+        recent_block = ""
+        try:
+            from pipeline.agents.episode_log import EpisodeLog
+            recent_block = EpisodeLog.render_for_writer(EpisodeLog().last(3))
+        except Exception:
+            recent_block = ""
+
         lessons_block = ""
         try:
             from pipeline.agents.knowledge_base import KnowledgeBase
@@ -135,6 +154,8 @@ class WriterAgent:
             "must reference real scene ids and stay within the episode.\n\n"
             f"CONCEPT:\n{concept.model_dump_json(indent=2)}"
         )
+        if recent_block:
+            user_msg += "\n\n" + recent_block
         if lessons_block:
             user_msg += "\n\n" + lessons_block
 

@@ -27,19 +27,81 @@ export const AirportBackground: React.FC = () => {
 
         <rect x="0" y="0" width="1080" height="1080" fill="url(#apt-wall)" />
 
-        <rect x="60" y="220" width="280" height="600" fill="url(#apt-window)" rx="8" />
-        <rect x="400" y="220" width="280" height="600" fill="url(#apt-window)" rx="8" />
-        <rect x="740" y="220" width="280" height="600" fill="url(#apt-window)" rx="8" />
-        <line x1="200" y1="220" x2="200" y2="820" stroke="#1a1a1e" strokeWidth="6" />
-        <line x1="540" y1="220" x2="540" y2="820" stroke="#1a1a1e" strokeWidth="6" />
-        <line x1="880" y1="220" x2="880" y2="820" stroke="#1a1a1e" strokeWidth="6" />
+        <rect x="60" y="220" width="280" height="540" fill="url(#apt-window)" rx="8" />
+        <rect x="400" y="220" width="280" height="540" fill="url(#apt-window)" rx="8" />
+        <rect x="740" y="220" width="280" height="540" fill="url(#apt-window)" rx="8" />
+        <line x1="200" y1="220" x2="200" y2="760" stroke="#1a1a1e" strokeWidth="6" />
+        <line x1="540" y1="220" x2="540" y2="760" stroke="#1a1a1e" strokeWidth="6" />
+        <line x1="880" y1="220" x2="880" y2="760" stroke="#1a1a1e" strokeWidth="6" />
 
-        <g transform="translate(120, 380)">
-          <rect width="200" height="80" rx="10" fill="#fff" stroke="#1a1a1e" strokeWidth="6" />
-          <line x1="20" y1="22" x2="20" y2="58" stroke="#1a1a1e" strokeWidth="4" />
-          <rect x="40" y="20" width="60" height="14" fill="#1a1a1e" />
-          <rect x="40" y="40" width="100" height="10" fill="#1a1a1e" opacity="0.7" />
-          <rect x="40" y="55" width="80" height="8" fill="#1a1a1e" opacity="0.5" />
+        {/* Tarmac visible through the windows */}
+        <rect x="60" y="600" width="960" height="160" fill="#3d3d44" opacity="0.55" />
+
+        {/* Plane #1 — center window, tail visible */}
+        <g transform="translate(480, 470)">
+          <ellipse cx="0" cy="120" rx="180" ry="14" fill="#1a1a1e" opacity="0.25" />
+          <path d="M -160 100 Q -180 80, -150 70 L 150 70 Q 180 80, 170 100 L 150 110 Q 0 120, -150 110 Z"
+                fill="#fff" stroke="#1a1a1e" strokeWidth="3" />
+          <rect x="-90" y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="-70" y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="-50" y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="-30" y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="-10" y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="10"  y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="30"  y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="50"  y="80" width="6" height="6" fill="#a8c5e0" />
+          <rect x="70"  y="80" width="6" height="6" fill="#a8c5e0" />
+          <path d="M 130 70 L 165 30 L 175 30 L 155 70 Z" fill="#fff" stroke="#1a1a1e" strokeWidth="3" />
+          <path d="M -160 100 Q -190 90, -200 130 L -160 130 Z" fill="#caa44a" stroke="#1a1a1e" strokeWidth="2" />
+          <path d="M 160 100 Q 190 90, 200 130 L 160 130 Z" fill="#caa44a" stroke="#1a1a1e" strokeWidth="2" />
+        </g>
+
+        {/* Plane #2 — distant in right window */}
+        <g transform="translate(880, 540) scale(0.55)">
+          <path d="M -120 100 Q -140 88, -110 78 L 110 78 Q 140 88, 130 100 L -110 100 Z"
+                fill="#fff" stroke="#1a1a1e" strokeWidth="3" opacity="0.85" />
+          <path d="M 110 78 L 140 50 L 148 50 L 130 78 Z" fill="#fff" stroke="#1a1a1e" strokeWidth="3" opacity="0.85" />
+        </g>
+
+        {/* Departures sign on the wall */}
+        <g transform="translate(120, 100)">
+          <rect width="320" height="92" rx="8" fill="#1a1a1e" stroke="#caa44a" strokeWidth="3" />
+          <text x="160" y="42" textAnchor="middle" fontFamily="ui-rounded, system-ui, sans-serif"
+                fontSize="24" fontWeight="700" fill="#caa44a">DEPARTURES</text>
+          <line x1="14" y1="50" x2="306" y2="50" stroke="#caa44a" strokeWidth="1" />
+          <text x="22"  y="74" fontFamily="monospace" fontSize="18" fontWeight="700" fill="#f5d35a">JFK 14:20  ON TIME</text>
+        </g>
+
+        {/* Terminal banner sign hanging from ceiling — TERMINAL B with arrow */}
+        <g transform="translate(640, 90)">
+          <rect width="380" height="100" rx="6" fill="#caa44a" stroke="#1a1a1e" strokeWidth="4" />
+          <text x="120" y="68" textAnchor="middle" fontFamily="ui-rounded, system-ui, sans-serif"
+                fontSize="48" fontWeight="900" fill="#1a1a1e">TERMINAL B</text>
+          <path d="M 280 50 L 340 50 L 340 36 L 360 60 L 340 84 L 340 70 L 280 70 Z"
+                fill="#1a1a1e" />
+        </g>
+
+        {/* Gate counter / podium with screen */}
+        <g transform="translate(60, 760)">
+          <rect width="380" height="120" rx="6" fill="#caa44a" stroke="#1a1a1e" strokeWidth="4" />
+          <rect x="14" y="14" width="160" height="80" rx="4" fill="#1a1a1e" />
+          <text x="94" y="48" textAnchor="middle" fontFamily="monospace" fontSize="14" fontWeight="700" fill="#7eff7e">GATE  B7</text>
+          <text x="94" y="68" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="700" fill="#7eff7e">BOARDING</text>
+          <text x="94" y="84" textAnchor="middle" fontFamily="monospace" fontSize="13" fontWeight="700" fill="#7eff7e">GROUP 4</text>
+          <rect x="200" y="20" width="160" height="20" rx="2" fill="#1a1a1e" opacity="0.4" />
+          <rect x="200" y="48" width="120" height="14" rx="2" fill="#1a1a1e" opacity="0.4" />
+          <rect x="200" y="68" width="140" height="14" rx="2" fill="#1a1a1e" opacity="0.4" />
+        </g>
+
+        {/* Jetway / boarding bridge entrance — right side */}
+        <g transform="translate(720, 760)">
+          <rect width="300" height="120" rx="6" fill="#7e8593" stroke="#1a1a1e" strokeWidth="4" />
+          <rect x="20" y="20" width="80" height="80" rx="4" fill="#caa44a" stroke="#1a1a1e" strokeWidth="3" />
+          <path d="M 60 30 L 60 90 M 40 60 L 80 60" stroke="#1a1a1e" strokeWidth="3" fill="none" />
+          <text x="200" y="58" textAnchor="middle" fontFamily="ui-rounded, system-ui, sans-serif"
+                fontSize="34" fontWeight="900" fill="#1a1a1e">JETWAY</text>
+          <text x="200" y="92" textAnchor="middle" fontFamily="ui-rounded, system-ui, sans-serif"
+                fontSize="22" fontWeight="700" fill="#1a1a1e" opacity="0.7">→ to plane</text>
         </g>
 
         <rect x="0" y="900" width="1080" height="60" fill="#1a1a1e" />
@@ -52,7 +114,7 @@ export const AirportBackground: React.FC = () => {
           fontWeight="900"
           fill="#1a1a1e"
         >
-          NOW BOARDING — GATE 7
+          NOW BOARDING — GATE B7
         </text>
 
         <rect x="0" y="1020" width="1080" height="900" fill="url(#apt-floor)" />
@@ -77,22 +139,15 @@ export const AirportBackground: React.FC = () => {
           <text x="540" y="1780" textAnchor="middle">GROUP 5</text>
         </g>
 
-        {/* Distant passenger queue silhouettes — far back, behind the action */}
+        {/* Passenger queue between the gate counter (x<440) and the jetway (x>720) */}
         <g opacity="0.55">
-          {/* a row of small passengers along the back wall */}
-          <Passenger x={140} y={840} skin="#e6c39b" shirt="#3aa67a" />
-          <Passenger x={210} y={830} skin="#c69a6a" shirt="#c44a3a" rolling />
-          <Passenger x={280} y={845} skin="#f0d4b0" shirt="#3a4ac4" />
-          <Passenger x={350} y={835} skin="#a87c4e" shirt="#caa44a" rolling />
-          <Passenger x={420} y={840} skin="#e6c39b" shirt="#7e8593" />
-          <Passenger x={770} y={835} skin="#d8b48a" shirt="#5a6f8e" rolling />
-          <Passenger x={840} y={840} skin="#c69a6a" shirt="#9b6cc4" />
-          <Passenger x={910} y={830} skin="#f0d4b0" shirt="#3aa67a" />
+          <Passenger x={470} y={830} skin="#e6c39b" shirt="#3aa67a" />
+          <Passenger x={510} y={840} skin="#c69a6a" shirt="#c44a3a" rolling />
+          <Passenger x={555} y={835} skin="#f0d4b0" shirt="#3a4ac4" />
+          <Passenger x={600} y={845} skin="#a87c4e" shirt="#caa44a" rolling />
+          <Passenger x={650} y={840} skin="#e6c39b" shirt="#7e8593" />
+          <Passenger x={695} y={835} skin="#d8b48a" shirt="#5a6f8e" />
         </g>
-
-        {/* A few rolling suitcases sitting at the gate */}
-        <Suitcase x={70} y={870} hue="#3a4ac4" />
-        <Suitcase x={970} y={865} hue="#c44a3a" />
 
         {/* "Other rocks behind them" — small grey rocks scattered along the floor */}
         <SmallRock cx={260} cy={1860} r={22} />
@@ -124,16 +179,6 @@ const Passenger: React.FC<{ x: number; y: number; skin: string; shirt: string; r
         <rect x="20" y="32" width="14" height="22" rx="2" fill="#caa44a" stroke="#1a1a1e" strokeWidth="1.5" />
       </>
     )}
-  </g>
-);
-
-const Suitcase: React.FC<{ x: number; y: number; hue: string }> = ({ x, y, hue }) => (
-  <g transform={`translate(${x} ${y})`} opacity="0.85">
-    <rect x="0" y="0" width="38" height="56" rx="5" fill={hue} stroke="#1a1a1e" strokeWidth="3" />
-    <rect x="14" y="-10" width="10" height="14" fill="#1a1a1e" />
-    <line x1="0" y1="20" x2="38" y2="20" stroke="#1a1a1e" strokeWidth="2" />
-    <circle cx="6" cy="56" r="3" fill="#1a1a1e" />
-    <circle cx="32" cy="56" r="3" fill="#1a1a1e" />
   </g>
 );
 

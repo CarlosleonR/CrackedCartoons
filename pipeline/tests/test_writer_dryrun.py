@@ -23,8 +23,13 @@ def test_system_prompt_loads_and_is_substantial() -> None:
     a = _agent()
     # Caching threshold for Sonnet is ~1024 tokens. Our prompt is well over.
     assert len(a.system_prompt_text) > 3000
-    # Character bible markers must be present.
-    for marker in ["The Rock", "The Kid", "Scene Type Catalog", "Episode 1"]:
+    # Character bible + format library markers — the things that drive variety.
+    for marker in [
+        "The Rock", "Gerald", "Dave from HR", "The Duck",
+        "Comedy Format Library",
+        "FORMAT 1: The Confident Expert",
+        "what_to_avoid_next_episode",
+    ]:
         assert marker in a.system_prompt_text, f"missing {marker!r}"
 
 

@@ -168,40 +168,40 @@
     },
     {
       "speaker": "other",
-      "text": "Sir, you need to move.",
-      "on_screen_text": "SIR, YOU NEED\nTO MOVE.",
+      "text": "Sir, you can't be here.",
+      "on_screen_text": "SIR, YOU CAN'T\nBE HERE.",
       "emotion": null,
       "start_frame": 462,
-      "estimated_duration_frames": 54,
+      "estimated_duration_frames": 60,
       "scene_id": "dialogue-pushback",
-      "audio_src": "audio/Ep02-AirportLines/03_other_sir_you_need_to_move.mp3"
-    },
-    {
-      "speaker": "other",
-      "text": "Yeah, rocks can't fly.",
-      "on_screen_text": "YEAH, ROCKS\nCAN'T FLY.",
-      "emotion": "deadpan",
-      "start_frame": 526,
-      "estimated_duration_frames": 54,
-      "scene_id": "dialogue-pushback",
-      "audio_src": "audio/Ep02-AirportLines/04_other_yeah_rocks_can_t_fly.mp3"
+      "audio_src": "audio/Ep02-AirportLines/03_other_sir_you_can_t_be_here.mp3"
     },
     {
       "speaker": "rock",
-      "text": "I will not be lectured.",
-      "on_screen_text": "I WILL NOT\nBE LECTURED.",
-      "emotion": "angry",
-      "start_frame": 590,
+      "text": "I am Pre-Boarding.",
+      "on_screen_text": "I AM\nPRE-BOARDING.",
+      "emotion": "deadpan",
+      "start_frame": 530,
       "estimated_duration_frames": 60,
       "scene_id": "dialogue-pushback",
-      "audio_src": "audio/Ep02-AirportLines/05_rock_i_will_not_be_lectured.mp3"
+      "audio_src": "audio/Ep02-AirportLines/04_rock_i_am_pre_boarding.mp3"
+    },
+    {
+      "speaker": "other",
+      "text": "Rocks don't fly.",
+      "on_screen_text": "ROCKS\nDON'T FLY.",
+      "emotion": "angry",
+      "start_frame": 596,
+      "estimated_duration_frames": 50,
+      "scene_id": "dialogue-pushback",
+      "audio_src": "audio/Ep02-AirportLines/05_other_rocks_don_t_fly.mp3"
     },
     {
       "speaker": "rock",
       "text": "Seven new zones. You're in Zone Eleven.",
       "on_screen_text": "SEVEN NEW ZONES.\nYOU'RE IN ZONE 11.",
       "emotion": "hostile",
-      "start_frame": 640,
+      "start_frame": 656,
       "estimated_duration_frames": 150,
       "scene_id": "dialogue-pushback",
       "audio_src": "audio/Ep02-AirportLines/06_rock_seven_new_zones_you_re_in_zo.mp3"

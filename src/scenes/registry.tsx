@@ -16,6 +16,9 @@ import { PicnicBackground } from "../scene/PicnicBackground";
 import { AirportBackground } from "../scene/AirportBackground";
 import { Child, ChildProps } from "../characters/Child";
 import { GateAgent, GateAgentProps } from "../characters/GateAgent";
+import { Gerald, GeraldProps } from "../characters/Gerald";
+import { DaveFromHR, DaveFromHRProps } from "../characters/DaveFromHR";
+import { Duck, DuckProps } from "../characters/Duck";
 import type { Speaker } from "./types";
 
 export type Setting = "picnic" | "airport" | "office" | "cafe" | "park" | "auto";
@@ -126,27 +129,40 @@ export const renderNpc = (
   setting: string | undefined,
   p: NpcRendererProps,
 ): React.ReactNode => {
-  // The kid is the kid wherever we are.
-  if (speaker === "kid") {
-    const kp: ChildProps = {
-      x: p.x, y: p.y, scale: p.scale,
-      mouthOpen: p.mouthOpen, browAngle: p.browAngle, armUp: p.armUp,
-    };
-    return <Child {...kp} />;
-  }
-  // Generic NPC: pick by setting.
-  if (setting === "airport") {
-    const ga: GateAgentProps = {
-      x: p.x, y: p.y, scale: p.scale,
-      mouthOpen: p.mouthOpen, browAngle: p.browAngle, armUp: p.armUp,
-    };
-    return <GateAgent {...ga} />;
-  }
-  // Fallback: use the kid as a stand-in. (The vision-QC step will flag this
-  // and prompt the human to add a purpose-built NPC.)
-  const kp: ChildProps = {
+  const common = {
     x: p.x, y: p.y, scale: p.scale,
     mouthOpen: p.mouthOpen, browAngle: p.browAngle, armUp: p.armUp,
   };
-  return <Child {...kp} />;
+
+  // Speaker-pinned characters take priority over setting-based fallbacks.
+  if (speaker === "kid")    return <Child       {...(common as ChildProps)} />;
+  if (speaker === "gerald") return <Gerald      {...(common as GeraldProps)} />;
+  if (speaker === "dave")   return <DaveFromHR  {...(common as DaveFromHRProps)} />;
+  if (speaker === "duck")   return <Duck        {...(common as DuckProps)} />;
+
+  // Generic "other" NPC: pick by setting.
+  if (setting === "airport") return <GateAgent {...(common as GateAgentProps)} />;
+
+  // Fallback: kid stand-in. Vision-QC will flag for the human to add a real NPC.
+  return <Child {...(common as ChildProps)} />;
+};
+
+/* ---------- Protagonist (the episode's lead) ---------- */
+
+export type Character = "the_rock" | "gerald" | "dave_from_hr" | "the_duck";
+
+export const renderProtagonist = (
+  character: Character | string | undefined,
+  p: NpcRendererProps,
+): React.ReactNode => {
+  // The Rock is rendered separately by scene components (he has bespoke
+  // mouth/curve/pupil props); this helper covers the *other* leads.
+  const common = {
+    x: p.x, y: p.y, scale: p.scale,
+    mouthOpen: p.mouthOpen, browAngle: p.browAngle, armUp: p.armUp,
+  };
+  if (character === "gerald")        return <Gerald     {...(common as GeraldProps)} />;
+  if (character === "dave_from_hr")  return <DaveFromHR {...(common as DaveFromHRProps)} />;
+  if (character === "the_duck")      return <Duck       {...(common as DuckProps)} />;
+  return null; // the_rock and unrecognized values: caller renders separately
 };

@@ -16,6 +16,38 @@ class Speaker(str, Enum):
     kid = "kid"
     narrator = "narrator"
     other = "other"
+    gerald = "gerald"      # silent — listed for completeness; should never appear in voiceover[]
+    dave = "dave"          # Dave from HR
+    duck = "duck"          # The Duck
+
+
+class Character(str, Enum):
+    """The protagonist of an episode — a single character drives one episode."""
+    the_rock = "the_rock"
+    gerald = "gerald"
+    dave_from_hr = "dave_from_hr"
+    the_duck = "the_duck"
+
+
+class ComedyFormat(str, Enum):
+    """Discrete comedy formats from the writer's library. Anti-repetition is
+    enforced by the writer reading the last 3 episodes' formats and refusing
+    to repeat them."""
+    the_confident_expert = "the_confident_expert"
+    the_silent_witness = "the_silent_witness"
+    compliance_training = "compliance_training"
+    the_professional = "the_professional"
+    the_escalation = "the_escalation"
+    the_misunderstanding = "the_misunderstanding"
+    the_callback = "the_callback"
+    the_witness = "the_witness"
+
+
+class PunchlineFormat(str, Enum):
+    visual = "visual"
+    verbal = "verbal"
+    silent = "silent"
+    callback = "callback"
 
 
 class Emotion(str, Enum):
@@ -43,6 +75,8 @@ class SceneType(str, Enum):
     reaction_beat = "reaction_beat"
     montage = "montage"
     outro = "outro"
+    visual_beat = "visual_beat"      # silent storytelling — Gerald-style
+    slide_deck = "slide_deck"        # Dave's projector + slide
 
 
 # ---------- nested ---------- #
@@ -121,6 +155,15 @@ class Scene(BaseModel):
 
 # ---------- top level ---------- #
 
+class WhatToAvoidNextEpisode(BaseModel):
+    """Diversity hints for the next writer call. Logged to
+    knowledge/episode_log.json after this script is produced."""
+    character: Character
+    format: ComedyFormat
+    punchline_style: PunchlineFormat
+    setting: str
+
+
 class EpisodeScript(BaseModel):
     """The structured artifact passed from Writer → Production."""
 
@@ -134,9 +177,29 @@ class EpisodeScript(BaseModel):
     width: int = Field(default=1080)
     height: int = Field(default=1920)
     total_frames: int = Field(..., gt=0)
+
+    # New diversity-tracking fields. Optional only so older scripts (Ep1, Ep2)
+    # validate without churn — new scripts MUST set these.
+    character: Optional[Character] = Field(
+        default=None,
+        description="Protagonist of THIS episode. One per episode.",
+    )
+    comedy_format: Optional[ComedyFormat] = Field(
+        default=None,
+        description="The format from the writer's library.",
+    )
+    punchline_format: Optional[PunchlineFormat] = Field(
+        default=None,
+        description="visual | verbal | silent | callback.",
+    )
+    what_to_avoid_next_episode: Optional[WhatToAvoidNextEpisode] = Field(
+        default=None,
+        description="What the next writer call must not repeat.",
+    )
+
     structure: str = Field(
         default="setup-escalation-twist-nobody-wins",
-        description="Narrative shape. Agent 6's analyst can A/B alternative shapes.",
+        description="Narrative shape (legacy field — Agent 6 may A/B alternates).",
     )
     scenes: List[Scene] = Field(..., min_length=3)
     voiceover: List[DialogueLine] = Field(default_factory=list)

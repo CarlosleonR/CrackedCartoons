@@ -26,6 +26,8 @@ import { DialogueExchangeScene } from "../scenes/DialogueExchangeScene";
 import { ReactionBeatScene } from "../scenes/ReactionBeatScene";
 import { OutroScene } from "../scenes/OutroScene";
 import { MontageScene } from "../scenes/MontageScene";
+import { VisualBeatScene } from "../scenes/VisualBeatScene";
+import { SlideDeckScene } from "../scenes/SlideDeckScene";
 
 const SCENE_REGISTRY: Record<SceneType, React.FC<any>> = {
   title_card:        TitleCardScene,
@@ -35,6 +37,8 @@ const SCENE_REGISTRY: Record<SceneType, React.FC<any>> = {
   reaction_beat:     ReactionBeatScene,
   outro:             OutroScene,
   montage:           MontageScene,
+  visual_beat:       VisualBeatScene,
+  slide_deck:        SlideDeckScene,
 };
 
 const renderScene = (scene: Scene, voiceover: DialogueLine[]): React.ReactNode => {
