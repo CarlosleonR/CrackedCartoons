@@ -1,0 +1,284 @@
+{
+  "episode_id": "Ep02-AirportLines",
+  "title": "The Rock Invents Airport Boarding Zones",
+  "logline": "The Rock gets dropped at a Group 4 boarding line and starts critiquing everyone's place. When challenged, he invents seven new zones. The plane leaves without him.",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "total_frames": 900,
+  "structure": "setup-escalation-twist-nobody-wins",
+  "scenes": [
+    {
+      "id": "title-card",
+      "type": "title_card",
+      "start_frame": 0,
+      "duration_frames": 75,
+      "description": "Bold title card with episode branding. Black background, yellow flash borders.",
+      "props": {
+        "episode_number": "EP. 2",
+        "headline": "THE ROCK",
+        "subtitle": "RATES YOUR BOARDING GROUP"
+      },
+      "visual_notes": null
+    },
+    {
+      "id": "entrance",
+      "type": "character_entrance",
+      "start_frame": 75,
+      "duration_frames": 105,
+      "description": "Airport gate area. Group 4 boarding line sign visible. The Rock tumbles in from the top of frame and lands with a thud near the line.",
+      "props": {
+        "character": "rock",
+        "entrance_direction": "top",
+        "on_screen_label": "UNINVITED",
+        "background_props": [
+          "boarding_sign_group_4",
+          "gate_podium",
+          "carry_on_bags",
+          "waiting_passengers"
+        ]
+      },
+      "visual_notes": "Rock falls and lands with small bounce. Passengers glance over."
+    },
+    {
+      "id": "rating-beat-1",
+      "type": "rating_beat",
+      "start_frame": 180,
+      "duration_frames": 90,
+      "description": "Close-up of a passenger holding a Group 4 boarding pass. The Rock delivers judgment.",
+      "props": {
+        "subject": "boarding_pass",
+        "subject_variant": "crumpled Group 4 pass in hand",
+        "score": "4/10",
+        "hero_shot_text": "GROUP FOUR? EMBARRASSING."
+      },
+      "visual_notes": null
+    },
+    {
+      "id": "rating-beat-2",
+      "type": "rating_beat",
+      "start_frame": 270,
+      "duration_frames": 90,
+      "description": "Close-up of a carry-on bag with a Priority tag dangling off it. The Rock sneers.",
+      "props": {
+        "subject": "carry_on_bag",
+        "subject_variant": "black roller bag with priority tag",
+        "score": "6/10",
+        "hero_shot_text": "PRIORITY. ACCEPTABLE."
+      },
+      "visual_notes": null
+    },
+    {
+      "id": "rating-beat-3",
+      "type": "rating_beat",
+      "start_frame": 360,
+      "duration_frames": 90,
+      "description": "Close-up of a passenger wearing a frequent flyer lanyard with status badge. The Rock is unimpressed.",
+      "props": {
+        "subject": "frequent_flyer",
+        "subject_variant": "silver status lanyard around neck",
+        "score": "5/10",
+        "hero_shot_text": "SILVER? MEDIOCRE."
+      },
+      "visual_notes": null
+    },
+    {
+      "id": "dialogue-pushback",
+      "type": "dialogue_exchange",
+      "start_frame": 450,
+      "duration_frames": 240,
+      "description": "Gate agent and frequent flyer step forward to challenge The Rock. He responds by escalating his authority and inventing new zones.",
+      "props": {
+        "participants": [
+          "other",
+          "other",
+          "rock"
+        ],
+        "setting": "airport_gate_counter"
+      },
+      "visual_notes": "Agent in uniform left, flyer with lanyard right, Rock center-bottom. Tension builds."
+    },
+    {
+      "id": "reaction-beat",
+      "type": "reaction_beat",
+      "start_frame": 690,
+      "duration_frames": 60,
+      "description": "Wide shot. The plane is gone from the window behind the gate. The Rock sits alone. Silence.",
+      "props": {
+        "character": "rock",
+        "expression": "confused",
+        "dots": 2
+      },
+      "visual_notes": "Empty jetway visible through window. Rock alone in frame."
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "start_frame": 750,
+      "duration_frames": 150,
+      "description": "Outro card with episode verdict and channel signoff.",
+      "props": {
+        "big_text": "HE MISSED IT.",
+        "subtitle": "(the rock pre-boarded)",
+        "tag": "subscribe for more bad opinions"
+      },
+      "visual_notes": null
+    }
+  ],
+  "voiceover": [
+    {
+      "speaker": "rock",
+      "text": "Group Four? Embarrassing.",
+      "on_screen_text": "GROUP FOUR?\nEMBARRASSING.",
+      "emotion": "smug",
+      "start_frame": 188,
+      "estimated_duration_frames": 66,
+      "scene_id": "rating-beat-1",
+      "audio_src": "audio/Ep02-AirportLines/00_rock_group_four_embarrassing.mp3"
+    },
+    {
+      "speaker": "rock",
+      "text": "Priority. Acceptable.",
+      "on_screen_text": "PRIORITY.\nACCEPTABLE.",
+      "emotion": "deadpan",
+      "start_frame": 278,
+      "estimated_duration_frames": 60,
+      "scene_id": "rating-beat-2",
+      "audio_src": "audio/Ep02-AirportLines/01_rock_priority_acceptable.mp3"
+    },
+    {
+      "speaker": "rock",
+      "text": "Silver? Mediocre.",
+      "on_screen_text": "SILVER?\nMEDIOCRE.",
+      "emotion": "indignant",
+      "start_frame": 368,
+      "estimated_duration_frames": 54,
+      "scene_id": "rating-beat-3",
+      "audio_src": "audio/Ep02-AirportLines/02_rock_silver_mediocre.mp3"
+    },
+    {
+      "speaker": "other",
+      "text": "Sir, you need to move.",
+      "on_screen_text": "SIR, YOU NEED\nTO MOVE.",
+      "emotion": null,
+      "start_frame": 462,
+      "estimated_duration_frames": 54,
+      "scene_id": "dialogue-pushback",
+      "audio_src": "audio/Ep02-AirportLines/03_other_sir_you_need_to_move.mp3"
+    },
+    {
+      "speaker": "other",
+      "text": "Yeah, rocks can't fly.",
+      "on_screen_text": "YEAH, ROCKS\nCAN'T FLY.",
+      "emotion": "deadpan",
+      "start_frame": 526,
+      "estimated_duration_frames": 54,
+      "scene_id": "dialogue-pushback",
+      "audio_src": "audio/Ep02-AirportLines/04_other_yeah_rocks_can_t_fly.mp3"
+    },
+    {
+      "speaker": "rock",
+      "text": "I will not be lectured.",
+      "on_screen_text": "I WILL NOT\nBE LECTURED.",
+      "emotion": "angry",
+      "start_frame": 590,
+      "estimated_duration_frames": 60,
+      "scene_id": "dialogue-pushback",
+      "audio_src": "audio/Ep02-AirportLines/05_rock_i_will_not_be_lectured.mp3"
+    },
+    {
+      "speaker": "rock",
+      "text": "I am creating seven new zones. You are all in Zone Eleven.",
+      "on_screen_text": "SEVEN NEW ZONES.\nYOU'RE IN ZONE 11.",
+      "emotion": "hostile",
+      "start_frame": 660,
+      "estimated_duration_frames": 84,
+      "scene_id": "dialogue-pushback",
+      "audio_src": "audio/Ep02-AirportLines/06_rock_i_am_creating_seven_new_zone.mp3"
+    }
+  ],
+  "sfx": [
+    {
+      "description": "heavy impact boom with metallic clang",
+      "start_frame": 0,
+      "duration_seconds": 1.2,
+      "volume": 0.7,
+      "scene_id": "title-card",
+      "reuse_key": null,
+      "audio_src": "sfx/Ep02-AirportLines/00_heavy_impact_boom_with_metal_172e51e3.mp3"
+    },
+    {
+      "description": "rock tumbling and crashing onto hard floor with thud",
+      "start_frame": 75,
+      "duration_seconds": 1.5,
+      "volume": 0.6,
+      "scene_id": "entrance",
+      "reuse_key": null,
+      "audio_src": "sfx/Ep02-AirportLines/01_rock_tumbling_and_crashing_o_65b37fef.mp3"
+    },
+    {
+      "description": "rubber stamp ding sound effect",
+      "start_frame": 188,
+      "duration_seconds": 0.4,
+      "volume": 0.6,
+      "scene_id": "rating-beat-1",
+      "reuse_key": "stamp_ding",
+      "audio_src": "sfx/Ep02-AirportLines/stamp_ding.mp3"
+    },
+    {
+      "description": "rubber stamp ding sound effect",
+      "start_frame": 278,
+      "duration_seconds": 0.4,
+      "volume": 0.6,
+      "scene_id": "rating-beat-2",
+      "reuse_key": "stamp_ding",
+      "audio_src": "sfx/Ep02-AirportLines/stamp_ding.mp3"
+    },
+    {
+      "description": "rubber stamp ding sound effect",
+      "start_frame": 368,
+      "duration_seconds": 0.4,
+      "volume": 0.6,
+      "scene_id": "rating-beat-3",
+      "reuse_key": "stamp_ding",
+      "audio_src": "sfx/Ep02-AirportLines/stamp_ding.mp3"
+    },
+    {
+      "description": "airport boarding announcement chime, two-tone ding",
+      "start_frame": 450,
+      "duration_seconds": 1.0,
+      "volume": 0.3,
+      "scene_id": "dialogue-pushback",
+      "reuse_key": null,
+      "audio_src": "sfx/Ep02-AirportLines/05_airport_boarding_announcemen_b9bef4e5.mp3"
+    },
+    {
+      "description": "distant jet engine fading away into silence",
+      "start_frame": 690,
+      "duration_seconds": 2.0,
+      "volume": 0.25,
+      "scene_id": "reaction-beat",
+      "reuse_key": null,
+      "audio_src": "sfx/Ep02-AirportLines/06_distant_jet_engine_fading_aw_fd9cec66.mp3"
+    },
+    {
+      "description": "sad trombone descending wah-wah",
+      "start_frame": 750,
+      "duration_seconds": 1.8,
+      "volume": 0.6,
+      "scene_id": "outro",
+      "reuse_key": null,
+      "audio_src": "sfx/Ep02-AirportLines/07_sad_trombone_descending_wah__4f579fa4.mp3"
+    },
+    {
+      "description": "distant rock muttering and grumbling indistinctly",
+      "start_frame": 820,
+      "duration_seconds": 2.5,
+      "volume": 0.22,
+      "scene_id": "outro",
+      "reuse_key": null,
+      "audio_src": "sfx/Ep02-AirportLines/08_distant_rock_muttering_and_g_de0aa2fa.mp3"
+    }
+  ],
+  "thumbnail_concept": "Bright airport blue background with yellow caution stripes on diagonal. EP. 2 badge top-left. Giant bold headline \"7 NEW ZONES\" in all-caps black with red outline. The Rock centered, angry expression, eyebrows down. Behind him a tilted boarding pass prop labeled \"GROUP 4\" with a red X stamp. Sticker callout bottom-right: \"\u2190 MISSED HIS FLIGHT\" in white-on-red. Footer text small: \"the rock rates your boarding group\"."
+}

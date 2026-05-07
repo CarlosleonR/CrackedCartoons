@@ -1,0 +1,120 @@
+{
+  "episode_id": "Ep01-PicnicSandwiches",
+  "title": "Ep. 1: NOBODY ASKED",
+  "logline": "The Rock crashes a picnic and rates everyone's sandwiches.",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "total_frames": 900,
+  "structure": "setup-escalation-twist-nobody-wins",
+  "scenes": [
+    {
+      "id": "title-card",
+      "type": "title_card",
+      "start_frame": 0,
+      "duration_frames": 90,
+      "description": "Yellow flash card. THE ROCK / HAS THOUGHTS / Ep.1 - The Picnic. Rock pops in at the end.",
+      "props": {
+        "episode_number": "Ep. 1",
+        "headline": "THE ROCK\nHAS THOUGHTS",
+        "subtitle": "The Picnic"
+      }
+    },
+    {
+      "id": "rock-arrival",
+      "type": "character_entrance",
+      "start_frame": 90,
+      "duration_frames": 90,
+      "description": "Rock rolls in from the right onto a checkered picnic blanket flanked by three sandwiches. UNINVITED label drops.",
+      "props": {
+        "character": "rock",
+        "entrance_direction": "right",
+        "on_screen_label": "UNINVITED",
+        "background_props": ["sandwich_classic", "sandwich_tall", "sandwich_weird"]
+      }
+    },
+    {
+      "id": "rating-classic",
+      "type": "rating_beat",
+      "start_frame": 180,
+      "duration_frames": 90,
+      "description": "Hero shot of a classic sandwich. Rock pans it. 0/10 stamp.",
+      "props": {
+        "subject": "sandwich",
+        "subject_variant": "classic",
+        "score": "0/10",
+        "hero_shot_text": "0/10"
+      }
+    },
+    {
+      "id": "rating-tall",
+      "type": "rating_beat",
+      "start_frame": 270,
+      "duration_frames": 90,
+      "description": "Tall sandwich. Rock declares it unhinged. 2/10 stamp.",
+      "props": {
+        "subject": "sandwich",
+        "subject_variant": "tall",
+        "score": "2/10",
+        "hero_shot_text": "2/10"
+      }
+    },
+    {
+      "id": "rating-weird",
+      "type": "rating_beat",
+      "start_frame": 360,
+      "duration_frames": 90,
+      "description": "Weird purple-cheese sandwich. Rock recoils. -3/10 stamp.",
+      "props": {
+        "subject": "sandwich",
+        "subject_variant": "weird",
+        "score": "-3/10",
+        "hero_shot_text": "-3/10"
+      }
+    },
+    {
+      "id": "argument",
+      "type": "dialogue_exchange",
+      "start_frame": 450,
+      "duration_frames": 330,
+      "description": "Kid enters and argues with Rock. Five lines. Bubble flips between sides per speaker.",
+      "props": {
+        "participants": ["kid", "rock"],
+        "setting": "picnic blanket"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "start_frame": 780,
+      "duration_frames": 120,
+      "description": "Big NOBODY WON card with the rock still muttering offscreen.",
+      "props": {
+        "big_text": "NOBODY\nWON.",
+        "subtitle": "(the rock is still talking)",
+        "tag": "subscribe for more bad opinions"
+      }
+    }
+  ],
+  "voiceover": [
+    { "speaker": "rock", "text": "No aioli? Disgrace.",        "on_screen_text": "NO AIOLI?\nDISGRACE.",    "start_frame": 198, "estimated_duration_frames": 63, "scene_id": "rating-classic", "audio_src": "audio/rock_aioli.mp3" },
+    { "speaker": "rock", "text": "Too tall. Unhinged.",         "on_screen_text": "TOO TALL.\nUNHINGED.",   "start_frame": 288, "estimated_duration_frames": 68, "scene_id": "rating-tall",    "audio_src": "audio/rock_too_tall.mp3" },
+    { "speaker": "rock", "text": "What is this? Get it away.",  "on_screen_text": "WHAT IS THIS?\nGET IT AWAY.", "start_frame": 378, "estimated_duration_frames": 57, "scene_id": "rating-weird", "audio_src": "audio/rock_what_is_this.mp3" },
+    { "speaker": "kid",  "text": "Hey! That's MY sandwich!",    "on_screen_text": "THAT'S MY\nSANDWICH!!", "start_frame": 464, "estimated_duration_frames": 54, "scene_id": "argument", "audio_src": "audio/kid_my_sandwich.mp3" },
+    { "speaker": "rock", "text": "Then you have bad taste.",    "on_screen_text": "THEN YOU HAVE\nBAD TASTE.", "start_frame": 528, "estimated_duration_frames": 61, "scene_id": "argument", "audio_src": "audio/rock_bad_taste.mp3" },
+    { "speaker": "kid",  "text": "You're a rock!",              "on_screen_text": "YOU'RE\nA ROCK!!",        "start_frame": 602, "estimated_duration_frames": 36, "scene_id": "argument", "audio_src": "audio/kid_youre_a_rock.mp3" },
+    { "speaker": "rock", "text": "I am a connoisseur.",         "on_screen_text": "I AM A\nCONNOISSEUR.",    "start_frame": 668, "estimated_duration_frames": 50, "scene_id": "argument", "audio_src": "audio/rock_connoisseur.mp3" },
+    { "speaker": "kid",  "text": "Rocks don't have mouths.",    "on_screen_text": "ROCKS DON'T\nHAVE MOUTHS.", "start_frame": 740, "estimated_duration_frames": 43, "scene_id": "argument", "audio_src": "audio/kid_no_mouths.mp3" }
+  ],
+  "sfx": [
+    { "description": "cartoon punchy whoosh impact, brassy stinger", "start_frame": 4,   "duration_seconds": 1.0, "volume": 0.7,  "scene_id": "title-card",   "reuse_key": "title_impact",   "audio_src": "sfx/title_impact.mp3" },
+    { "description": "heavy boulder rolling on dirt, ending in a thud", "start_frame": 90, "duration_seconds": 2.5, "volume": 0.55, "scene_id": "rock-arrival", "reuse_key": "rock_arrival",  "audio_src": "sfx/rock_arrival.mp3" },
+    { "description": "rubber stamp slam followed by a tiny ding", "start_frame": 232, "duration_seconds": 1.0, "volume": 0.6,  "scene_id": "rating-classic", "reuse_key": "stamp_ding", "audio_src": "sfx/stamp_ding.mp3" },
+    { "description": "rubber stamp slam followed by a tiny ding", "start_frame": 322, "duration_seconds": 1.0, "volume": 0.6,  "scene_id": "rating-tall",    "reuse_key": "stamp_ding", "audio_src": "sfx/stamp_ding.mp3" },
+    { "description": "rubber stamp slam followed by a tiny ding", "start_frame": 412, "duration_seconds": 1.0, "volume": 0.6,  "scene_id": "rating-weird",   "reuse_key": "stamp_ding", "audio_src": "sfx/stamp_ding.mp3" },
+    { "description": "small child gasp, surprised",               "start_frame": 452, "duration_seconds": 0.7, "volume": 0.5,  "scene_id": "argument", "reuse_key": "kid_gasp", "audio_src": "sfx/kid_gasp.mp3" },
+    { "description": "vinyl record scratch, sudden stop",         "start_frame": 778, "duration_seconds": 1.0, "volume": 0.65, "scene_id": "argument", "reuse_key": "record_scratch", "audio_src": "sfx/record_scratch.mp3" },
+    { "description": "classic sad trombone wah-wah-waaah",         "start_frame": 800, "duration_seconds": 2.5, "volume": 0.55, "scene_id": "outro",    "reuse_key": "sad_trombone",   "audio_src": "sfx/sad_trombone.mp3" }
+  ],
+  "thumbnail_concept": "Yellow background with diagonal black line streaks. EP. 1 black-on-yellow badge tilted left. Giant black headline 'NOBODY ASKED.' with red drop-shadow. Sticker badge '<- rates your sandwich' pointing at The Rock, who is angry and centered-left. A tall sandwich on the right with a tilted red 0/10 stamp on its top-right corner. Footer: 'the rock has thoughts'."
+}

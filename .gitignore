@@ -1,7 +1,31 @@
 node_modules
 dist
 .DS_Store
+
+# All env files at any depth.
 .env
+.env.local
+**/.env
+**/.env.local
 
 # Ignore the output video from Git but not videos you import into src/.
 out
+
+# Pipeline secrets, build artifacts, knowledge state.
+pipeline/secrets/
+pipeline/.venv/
+pipeline/out/
+pipeline/knowledge/
+pipeline/**/__pycache__/
+pipeline/**/.pytest_cache/
+pipeline/**/*.egg-info/
+
+# Python bytecode
+*.pyc
+__pycache__/
+.pytest_cache/
+
+# OS / editor cruft
+.idea/
+.vscode/
+*.swp
